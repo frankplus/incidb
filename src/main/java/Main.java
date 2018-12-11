@@ -47,17 +47,21 @@ public class Main {
         //generate
         ArrayList<String> wordlist = new ArrayList<String>();
         for(Ingredient ingredient : listIngredients){
-            String[] splitted = ingredient.getInciName().trim().split("[ /()\\n\\r]+");
+            /*String[] splitted = ingredient.getInciName().trim().split("[ /()\\n\\r]+");
             for(String word : splitted) {
                 if (word.length()>0 && !wordlist.contains(word)) {
                     wordlist.add(word);
                 }
+            }*/
+            String word = ingredient.getInciName();
+            if (word.length()>0 && !wordlist.contains(word)) {
+                wordlist.add(word);
             }
         }
 
         //write
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("inciwordlist.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("completeincinamelist.txt"));
             for(String word : wordlist) {
                 writer.write(word);
                 writer.newLine();
