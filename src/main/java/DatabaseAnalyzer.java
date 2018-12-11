@@ -2,8 +2,14 @@ import com.opencsv.CSVReader;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * This class aims to generate a list of different words from inci database
+ * @Author Francesco Pham
+ */
 public class DatabaseAnalyzer {
     public static void main(String args[]){
+
+        //open file db
         Reader reader = null;
         try {
             reader = new BufferedReader(new FileReader("src/main/resources/incidb.csv"));
@@ -44,8 +50,9 @@ public class DatabaseAnalyzer {
             System.out.println("Error closing csv reader");
         }
 
-        //generate
-        final int minChars = 2;
+        //generate word list
+        int longestWord = 0;
+        final int minChars = 2; //ignoring words with less than or equal to minChars caracters
         ArrayList<String> wordlist = new ArrayList<String>();
         for(Ingredient ingredient : listIngredients){
             String[] splitted = ingredient.getInciName().split("[\\[\\] -/()\\n\\r]+");
@@ -53,11 +60,14 @@ public class DatabaseAnalyzer {
                 String wordTrimmed = word.trim();
                 if (wordTrimmed.length()>minChars && !wordlist.contains(wordTrimmed)) {
                     wordlist.add(wordTrimmed);
+
+                    if(wordTrimmed.length()>longestWord) longestWord = wordTrimmed.length();
                 }
             }
         }
+        System.out.println("longest word "+longestWord+" characters" );
 
-        //write
+        //write to file
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("inciwordlist.txt"));
             for(String word : wordlist) {
