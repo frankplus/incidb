@@ -34,7 +34,7 @@ public class LevenshteinAutomata {
         final ITransducer<Candidate> transducer = new TransducerBuilder()
                 .dictionary(dictionary)
                 .algorithm(Algorithm.MERGE_AND_SPLIT) //Using MERGE_AND_SPLIT because it's better for OCR
-                .defaultMaxDistance(defMaxDist) // this value should be changed
+                .defaultMaxDistance(defMaxDist)
                 .includeDistance(true)
                 .build();
 

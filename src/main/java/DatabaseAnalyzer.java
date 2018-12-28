@@ -52,14 +52,18 @@ public class DatabaseAnalyzer {
 
         //generate word list
         int longestWord = 0;
-        final int minChars = 2; //ignoring words with less than or equal to minChars caracters
+        final int minChars = 3; //ignoring words with less than or equal to minChars caracters
         ArrayList<String> wordlist = new ArrayList<String>();
         for(Ingredient ingredient : listIngredients){
-            String[] splitted = ingredient.getInciName().split("[\\[\\] -/()\\n\\r]+");
+            String[] splitted = ingredient.getInciName().split("[^a-zA-Z0-9-]+");
             for(String word : splitted) {
                 String wordTrimmed = word.trim();
-                if (wordTrimmed.length()>minChars && !wordlist.contains(wordTrimmed)) {
+                if (wordTrimmed.length()>=minChars && !wordlist.contains(wordTrimmed)) {
                     wordlist.add(wordTrimmed);
+
+                    if(!wordTrimmed.matches("^[A-Z0-9-]+$")){
+                        System.out.println("found a non character or number: "+wordTrimmed);
+                    }
 
                     if(wordTrimmed.length()>longestWord) longestWord = wordTrimmed.length();
                 }
